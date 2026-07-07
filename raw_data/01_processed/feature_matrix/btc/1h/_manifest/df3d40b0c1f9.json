@@ -1,0 +1,149 @@
+{
+  "build_id": "df3d40b0c1f9",
+  "asset": "btc",
+  "interval": "1h",
+  "spec_version": "v1",
+  "mode": "incremental",
+  "built_at": "2026-06-16T04:03:20.535831+00:00",
+  "builder_rev": "52a0733",
+  "inputs": [
+    {
+      "dataset": "klines",
+      "path": "unzip/klines/btc/binance/spot-BTCUSDT-1m/spot-BTCUSDT-1m.csv",
+      "sha256": "2bf17864fdcd051ba6ab7a6080d6376ac68d0f7bdb3d0f14beeb936dfe3e3f4e",
+      "exists": true
+    },
+    {
+      "dataset": "futures_metrics",
+      "path": "unzip/futures_metrics/btc/binance/um-BTCUSDT-5m/um-BTCUSDT-5m.csv",
+      "sha256": "bbd63b4323fcd81ea2fad93f97459b119a81329c8f72438d67350bb9465633d1",
+      "exists": true
+    },
+    {
+      "dataset": "funding_rate",
+      "path": "unzip/funding_rate/btc/binance/um-BTCUSDT-8h/um-BTCUSDT-8h.csv",
+      "sha256": "714cd316c3951aaf5daf83dffa7bbd04acd43c0c1b8796080bced6e59223e738",
+      "exists": true
+    },
+    {
+      "dataset": "net_taker_volume",
+      "path": "unzip/net_taker_volume/btc/binance/um-BTCUSDT-1d/um-BTCUSDT-1d.csv",
+      "sha256": "d44ede4d941722bdaca90044cf1d957d05a964181297a9f59b062168650e49f2",
+      "exists": true
+    }
+  ],
+  "out_rows": 12721,
+  "out_range_ms": [
+    1735689600000,
+    1781481600000
+  ],
+  "rows_added": 0,
+  "months_written": [],
+  "revisions": [],
+  "stale": true,
+  "partitions": [
+    {
+      "month": "2025-01",
+      "rows": 744,
+      "content_sha256": "04bbb660db8db1d8a85b26e0027d040cffec316fa6bb670ac6425e30af52043f"
+    },
+    {
+      "month": "2025-02",
+      "rows": 672,
+      "content_sha256": "02ba47dec4c1c8d49385f731b81e79019e7bf5c2a91c5bce720d82d0007e1811"
+    },
+    {
+      "month": "2025-03",
+      "rows": 744,
+      "content_sha256": "2addbf2f99aa200439fb1dec421ec027806bb5f07967d699729d7b021c2a15e1"
+    },
+    {
+      "month": "2025-04",
+      "rows": 720,
+      "content_sha256": "37c79e69b9b0d3e3cce5cd82d7a7bbe54de543d98561a9faf4e2628caabdeafe"
+    },
+    {
+      "month": "2025-05",
+      "rows": 744,
+      "content_sha256": "199673df932bb2a56dc0f22cfcf61973f7db0213e499231f971c5767ff515a97"
+    },
+    {
+      "month": "2025-06",
+      "rows": 720,
+      "content_sha256": "d6081293ff06ed5d495bdefade75d13d163c573dcf2518b0c8267e0c7ab767f5"
+    },
+    {
+      "month": "2025-07",
+      "rows": 744,
+      "content_sha256": "559b801c16f3684dff8088ce43ea25740819c9004a271601473ab677898742b0"
+    },
+    {
+      "month": "2025-08",
+      "rows": 744,
+      "content_sha256": "7cec3b79bd982b9dc9b63a33b0d76c486c9424f363274f4f484808d988ab86e8"
+    },
+    {
+      "month": "2025-09",
+      "rows": 720,
+      "content_sha256": "855dc78f92f16a4db86120d04baee502341961891d2eb04059055fd3de711e41"
+    },
+    {
+      "month": "2025-10",
+      "rows": 744,
+      "content_sha256": "99e80d109c33473f6121d595d1c17ab5e4c09e832928a8ee8db4f651777d7285"
+    },
+    {
+      "month": "2025-11",
+      "rows": 720,
+      "content_sha256": "b7c46a412c4dfe543af7a08f8ba9c5718de965371897db121d9ee1b71ae56d23"
+    },
+    {
+      "month": "2025-12",
+      "rows": 744,
+      "content_sha256": "0b59c2689637604bbc2fe90410600b2765bea3f44c26247b53a3cff31d8b4a9f"
+    },
+    {
+      "month": "2026-01",
+      "rows": 744,
+      "content_sha256": "5c349a07bb75a7b93c3677cd8f9aa59a7885468f084f0afc2d5ad162902759dc"
+    },
+    {
+      "month": "2026-02",
+      "rows": 672,
+      "content_sha256": "da9eb42939bcd85adeeed9725b704de6b5fc97c67586c23dafad635d22eadd41"
+    },
+    {
+      "month": "2026-03",
+      "rows": 744,
+      "content_sha256": "43c900ca98fc07e7f236165bc62154ab53fdb730190c2a98c2c9bc5638aee761"
+    },
+    {
+      "month": "2026-04",
+      "rows": 720,
+      "content_sha256": "451e0dcc24e41ab0d6009edf3197d898f089af2baef8afdc43ed825d1b82bd3f"
+    },
+    {
+      "month": "2026-05",
+      "rows": 744,
+      "content_sha256": "b9ce1fa89e532b06bc7ad4ae6b4aceeb238c97ec16e7c277a86ec53674a46c9b"
+    },
+    {
+      "month": "2026-06",
+      "rows": 337,
+      "content_sha256": "be603b9685ccd23b254189217d2a71b10693f763f9ad1c86a3b679187136cbbb"
+    }
+  ],
+  "nonnull_per_col": {
+    "klines__ret__1h": 12721,
+    "klines__ret__24h": 12721,
+    "klines__rvol__24h": 12721,
+    "klines__takerbuyfrac__1h": 12721,
+    "futures__oi__asof": 5624,
+    "futures__oichg__4h": 5616,
+    "funding__rate__asof": 12721,
+    "nettaker__net__1d": 12721,
+    "futures__stale_h": 12721,
+    "funding__stale_h": 12721,
+    "nettaker__stale_h": 12721
+  }
+}

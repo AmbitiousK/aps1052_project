@@ -1,0 +1,99 @@
+{
+  "coin": "btc",
+  "ts": "2026-07-07 02:43:06",
+  "latest_bar": "2026-07-07 02:00:00+00:00",
+  "mode": "shadow_only",
+  "final_verdict": "NO_SIGNAL",
+  "direction": null,
+  "live_execution_allowed": false,
+  "circuit_breaker": {
+    "result": "BLOCK",
+    "halts": [
+      "drawdown_halt"
+    ],
+    "evidence": "累计实现 -2485.9bps ≤ -400.0"
+  },
+  "gate_path": [
+    {
+      "node": "fresh_data",
+      "q": "数据是否新鲜？",
+      "answer": "YES",
+      "evidence": "特征 age 0.14h（阈 3.0h）",
+      "result": "PASS"
+    },
+    {
+      "node": "pattern_fire",
+      "q": "当前是否有已验证 alpha 触发？",
+      "answer": "NO",
+      "evidence": "未触发",
+      "result": "HOLD"
+    },
+    {
+      "node": "cost_gate",
+      "q": "成本后是否仍有正期望？",
+      "answer": "N/A",
+      "evidence": "无触发 alpha，跳过",
+      "result": "SKIP"
+    },
+    {
+      "node": "risk_gate",
+      "q": "风控/暴露是否允许？",
+      "answer": "YES",
+      "evidence": "暴露 0.08/0.05",
+      "result": "PASS"
+    },
+    {
+      "node": "circuit_breaker",
+      "q": "确定性熔断是否放行？",
+      "answer": "NO",
+      "evidence": "累计实现 -2485.9bps ≤ -400.0",
+      "result": "BLOCK"
+    }
+  ],
+  "near": {
+    "any_near": false,
+    "alphas": [
+      {
+        "alpha_id": "btc:volume:48h",
+        "family": "volume_capitulation_reversal",
+        "met": 0,
+        "total": 2,
+        "fires": false,
+        "near": false,
+        "conds": [
+          {
+            "short": "ret1",
+            "op": "<=",
+            "thr": -0.006697,
+            "value": -0.005669,
+            "met": false
+          },
+          {
+            "short": "range24",
+            "op": ">=",
+            "thr": 0.100544,
+            "value": 0.053151,
+            "met": false
+          }
+        ]
+      }
+    ],
+    "missing": [
+      "1h急跌 <= -0.006697（现 -0.005669）",
+      "24h振幅 >= 0.100544（现 0.053151）"
+    ]
+  },
+  "flow": {
+    "price": 63568.01,
+    "net_taker_usd_60s": 119381,
+    "net_taker_usd_300s": -221495,
+    "spread_bps": 0.01,
+    "trades_today": 221860
+  },
+  "state_key": "NO_SIGNAL|BLOCK|near=False|fire=False",
+  "transition": false,
+  "reasoning_level": "light",
+  "last_deep_ts": "2026-07-06 14:40:21",
+  "last_light_ts": "2026-07-07 02:43:06",
+  "last_light_at": 1783392186.960444
+}

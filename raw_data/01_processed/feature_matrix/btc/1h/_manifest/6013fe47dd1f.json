@@ -1,0 +1,595 @@
+{
+  "build_id": "6013fe47dd1f",
+  "asset": "btc",
+  "interval": "1h",
+  "spec_version": "v2",
+  "mode": "incremental",
+  "built_at": "2026-07-06T01:33:01.075639+00:00",
+  "builder_rev": "e51beb0",
+  "inputs": [
+    {
+      "dataset": "klines",
+      "path": "unzip/klines/btc/binance/spot-BTCUSDT-1m/spot-BTCUSDT-1m.csv",
+      "sha256": "1938843e9380fa883ed95567405067dc1b94a732046e2ea47b32d1e8fb029ba0",
+      "exists": true
+    },
+    {
+      "dataset": "futures_metrics",
+      "path": "unzip/futures_metrics/btc/binance/um-BTCUSDT-5m/um-BTCUSDT-5m.csv",
+      "sha256": "52c8015ea4f329d8038508d2f6bea794a144a97c67694eee1c49fb4d07059bce",
+      "exists": true
+    },
+    {
+      "dataset": "funding_rate",
+      "path": "unzip/funding_rate/btc/binance/um-BTCUSDT-8h/um-BTCUSDT-8h.csv",
+      "sha256": "22a48d811e49de75675227995f0d5cf5316115ce48e5b3587a955b6106905f7a",
+      "exists": true
+    },
+    {
+      "dataset": "net_taker_volume",
+      "path": "unzip/net_taker_volume/btc/binance/um-BTCUSDT-1d/um-BTCUSDT-1d.csv",
+      "sha256": "7ec026d54b3d0cac42ef7376e9fe17b20c2e419da10ef97c32624214f53c673f",
+      "exists": true
+    }
+  ],
+  "out_rows": 77129,
+  "out_range_ms": [
+    1504227600000,
+    1782345600000
+  ],
+  "rows_added": 0,
+  "months_written": [],
+  "revisions": [],
+  "stale": true,
+  "partitions": [
+    {
+      "month": "2017-09",
+      "rows": 712,
+      "content_sha256": "c4581d08be1a314ba1651ef4310d07ce077fa6d93789ee6b3fe89087a3e33cb2"
+    },
+    {
+      "month": "2017-10",
+      "rows": 744,
+      "content_sha256": "d9da29182ef1012dcc6e7d46636c7bc0f9e69531cc0d3f9c2300d1c13388e95e"
+    },
+    {
+      "month": "2017-11",
+      "rows": 720,
+      "content_sha256": "e89779c07514789fb9842a8a87bd81a48aba1a8c891226314c36fdfc4f8d2c62"
+    },
+    {
+      "month": "2017-12",
+      "rows": 744,
+      "content_sha256": "d5d99dcc823498c1250c658269e480cb7fb1b7aa63f44253dbcad9b8cf3ceea1"
+    },
+    {
+      "month": "2018-01",
+      "rows": 743,
+      "content_sha256": "11b918f896ee22d39acb245d39e6e9b853594461fd7a70ab339b20b142db3369"
+    },
+    {
+      "month": "2018-02",
+      "rows": 640,
+      "content_sha256": "c0a9d411a456f1c6314e14b8c831ffe5dd4630fabff7e1b1bd4a60688bdeffc9"
+    },
+    {
+      "month": "2018-03",
+      "rows": 744,
+      "content_sha256": "4bae97882358df62d5772f9d42740eb6c0ba157b92191c9c9880cad5796c720d"
+    },
+    {
+      "month": "2018-04",
+      "rows": 720,
+      "content_sha256": "4cf04ec326e8bce4d42209c86b64eed482137f36ff69c44aa01dbd9bd147e52c"
+    },
+    {
+      "month": "2018-05",
+      "rows": 744,
+      "content_sha256": "599e0819d17a3d163684796c9a3de717d189d393b88d9f3f314ca4e78d9369b3"
+    },
+    {
+      "month": "2018-06",
+      "rows": 709,
+      "content_sha256": "757a464ec9f0aef149a5e6a5881cb6a0c23caa9001c5dae6b58cf693556f5f32"
+    },
+    {
+      "month": "2018-07",
+      "rows": 737,
+      "content_sha256": "11ad538440e636e53caaf00f4cea37582c65897b3eb9f4112b6b7971a05abaf1"
+    },
+    {
+      "month": "2018-08",
+      "rows": 744,
+      "content_sha256": "0e1949e070c9248153326527079e81d8f6c0975270e962b7880e453571fe3a12"
+    },
+    {
+      "month": "2018-09",
+      "rows": 720,
+      "content_sha256": "040466670ce35d7f436373ff8647ed21e52f75fa716cd877133a895bf710cf21"
+    },
+    {
+      "month": "2018-10",
+      "rows": 741,
+      "content_sha256": "4997a282216e859fec4dba120c9f66467e0e1d64abf6dd77df6d0e63fee8fc76"
+    },
+    {
+      "month": "2018-11",
+      "rows": 713,
+      "content_sha256": "5d1b412f736e0e7175f5bbd0dbc730f5322edb5ae63da1ee3661b0764620b402"
+    },
+    {
+      "month": "2018-12",
+      "rows": 744,
+      "content_sha256": "7a625bc749ec3e82ff89ae4588926905bd08663dff96a6d61116981bca37b945"
+    },
+    {
+      "month": "2019-01",
+      "rows": 744,
+      "content_sha256": "066997ba9a11fc4bc9736444a358d9febcca416f850183b65a107b4216711742"
+    },
+    {
+      "month": "2019-02",
+      "rows": 672,
+      "content_sha256": "a20942838f6f484b29fd6ec7f91ba1bc8b56a6f605b60bee3ebf3500c80ff1cf"
+    },
+    {
+      "month": "2019-03",
+      "rows": 738,
+      "content_sha256": "c6df98d7e3f5a24946c69a058f38a8e826408a74e7f8ad127d6d1a91d7a5e7a4"
+    },
+    {
+      "month": "2019-04",
+      "rows": 720,
+      "content_sha256": "e027d6260b205e5a32abd2fc80def4332540f84ce6ab48ace300552f13eedaad"
+    },
+    {
+      "month": "2019-05",
+      "rows": 734,
+      "content_sha256": "f3b4dc6e371934e48480e0321aa694d57dfaac11ae7cca02ee1b41e408d80d0a"
+    },
+    {
+      "month": "2019-06",
+      "rows": 720,
+      "content_sha256": "a0424900df628ccbad61829c611244932736fbdd9de08612e68824c491782548"
+    },
+    {
+      "month": "2019-07",
+      "rows": 744,
+      "content_sha256": "9d062605349c6a19034e93370c5d102e1fc71e9bc6382c78bf9a4e326b21ae0f"
+    },
+    {
+      "month": "2019-08",
+      "rows": 736,
+      "content_sha256": "21908ee98564dc68d7138d58c88f20d8ac9e8a853383edae2f7986de9396307f"
+    },
+    {
+      "month": "2019-09",
+      "rows": 720,
+      "content_sha256": "b1f5c8c22d466cb55d44a2357d2d68534819dfd3b65691fd9be6394c113477b3"
+    },
+    {
+      "month": "2019-10",
+      "rows": 744,
+      "content_sha256": "54b4414801408dc46fe3c5817afc471ed2b859d6e61a28b1d81175c341cab68a"
+    },
+    {
+      "month": "2019-11",
+      "rows": 716,
+      "content_sha256": "f893f20e43de109c07038c2af799e2026e7d9ffa734623dce4ab0e935b295692"
+    },
+    {
+      "month": "2019-12",
+      "rows": 744,
+      "content_sha256": "2613b935b87f31c358a132d29dde5106e7b1988cc292dcdce0f58f4e180e71eb"
+    },
+    {
+      "month": "2020-01",
+      "rows": 744,
+      "content_sha256": "31bcb9f35d6e50dca547642d0bc70ec7466b1e8a37fedd066b2122649ddd2d41"
+    },
+    {
+      "month": "2020-02",
+      "rows": 690,
+      "content_sha256": "5e8554cbc9b0fa003d206a8e2a6d06d77c42214aa920e21b0e722e539db59333"
+    },
+    {
+      "month": "2020-03",
+      "rows": 743,
+      "content_sha256": "415f41686fc7a84b59d371fb528d104777c0e824edb719b1819129bd9cb725bd"
+    },
+    {
+      "month": "2020-04",
+      "rows": 718,
+      "content_sha256": "9f6cfa5c50675f7626e743eb62d8b32fc855a1bec927d3ad1867322ce60fc260"
+    },
+    {
+      "month": "2020-05",
+      "rows": 744,
+      "content_sha256": "088d9bead72f2307254b6f2bfb2c22320cb8b745f95e1c0d7e1ca60ecb53a209"
+    },
+    {
+      "month": "2020-06",
+      "rows": 717,
+      "content_sha256": "a4529231418a76b0aa666687c113210d49019c8ed5e1b723d74c6d882830ec38"
+    },
+    {
+      "month": "2020-07",
+      "rows": 744,
+      "content_sha256": "abc7028b861b723b132aa82686f411b53dd5590552bebdc70fc09a26c42f89cf"
+    },
+    {
+      "month": "2020-08",
+      "rows": 744,
+      "content_sha256": "22db068ec7e7f11b84e60498629f0d310a62d2f33c562b4ddb66a7ad15194dee"
+    },
+    {
+      "month": "2020-09",
+      "rows": 720,
+      "content_sha256": "c11e5c55d1af8c0a62197af89ef16fbcf9c203d7f7091752794458d7e937ecb0"
+    },
+    {
+      "month": "2020-10",
+      "rows": 744,
+      "content_sha256": "54c7107afe7d78e1b4010b9c02c828a997f0726030f6d4804a847f4ea0a38a03"
+    },
+    {
+      "month": "2020-11",
+      "rows": 719,
+      "content_sha256": "f20ba0ead9700b27d3afa9f4bea647f8bef35e8d86fd7cf5540bcef2b1fd7f37"
+    },
+    {
+      "month": "2020-12",
+      "rows": 740,
+      "content_sha256": "e7e23ef4f0c315191f5470326a8d913e2376aa48e1139678fe7bbbfd6f80e6a4"
+    },
+    {
+      "month": "2021-01",
+      "rows": 744,
+      "content_sha256": "3baf5c20748befe7eb98f0d5ba44775cd823116bd11e91912dec71959ea18c6a"
+    },
+    {
+      "month": "2021-02",
+      "rows": 671,
+      "content_sha256": "1f0c171c6790ab8f4137a5d875b0ad7ead01cac723d9775be4857665f804e685"
+    },
+    {
+      "month": "2021-03",
+      "rows": 743,
+      "content_sha256": "e296055a66fc607563b6c4cd4d692d90d34fa37bc6357de298018ba006b11a3b"
+    },
+    {
+      "month": "2021-04",
+      "rows": 715,
+      "content_sha256": "da756d9861058d7f93ddf439e1e3f0a464e9318760a4584c04b8e3c364598703"
+    },
+    {
+      "month": "2021-05",
+      "rows": 744,
+      "content_sha256": "b65f0a81d06858f09064ffdc6c04a0bcaf0f7d397dbd4a9b3118c5a421bf1c95"
+    },
+    {
+      "month": "2021-06",
+      "rows": 720,
+      "content_sha256": "40a30ad9474300ddb6ab06deab4a0fa2a6eec0068077e95a35f81a47d45746cd"
+    },
+    {
+      "month": "2021-07",
+      "rows": 744,
+      "content_sha256": "56b5a9b992ed3fdf1c98ec5d8d1fee3f6aef6eec98bae0ae02506f23d517cd32"
+    },
+    {
+      "month": "2021-08",
+      "rows": 740,
+      "content_sha256": "fcc4cf1d523cf7c53b79207ed8a2f429e6461ab59521c4b270a70cfee837ca6d"
+    },
+    {
+      "month": "2021-09",
+      "rows": 718,
+      "content_sha256": "01dabb0c4b91ed529bc25120e1460a0555251b0919cb4aa551f162554a21b350"
+    },
+    {
+      "month": "2021-10",
+      "rows": 744,
+      "content_sha256": "ddebbac86899519fedf94535028bc033820ad4419487511e9131c2db60ce6cc1"
+    },
+    {
+      "month": "2021-11",
+      "rows": 720,
+      "content_sha256": "1d82099929eec98827aea39743821fadf4c5a1852643906f0f084427cc574668"
+    },
+    {
+      "month": "2021-12",
+      "rows": 744,
+      "content_sha256": "eff535a88d9a0f9d7ebec7b69f95d2793969b2738eef99568120e15cde7c4f30"
+    },
+    {
+      "month": "2022-01",
+      "rows": 744,
+      "content_sha256": "845715290dc7521571fd1fbb81689d31642fb418c6747dc79c01314d5603c89c"
+    },
+    {
+      "month": "2022-02",
+      "rows": 672,
+      "content_sha256": "2321c00bfea8e8c01fd4a6ee95ea51d5207fbeceef697c67c819d6d79fae2953"
+    },
+    {
+      "month": "2022-03",
+      "rows": 744,
+      "content_sha256": "2fc3f94384bf22b40e619949e2afe47d3105dcb5ac44c9b4873a8753e4207364"
+    },
+    {
+      "month": "2022-04",
+      "rows": 720,
+      "content_sha256": "ef1d12c1e17f0c71e7328df3322670d8611c54c7de1540bd7cc8f44bffd344dd"
+    },
+    {
+      "month": "2022-05",
+      "rows": 744,
+      "content_sha256": "5172a757e45d2486e7c0d5d9117f11269556625c20fa64ccd26064d57a722b15"
+    },
+    {
+      "month": "2022-06",
+      "rows": 720,
+      "content_sha256": "1efd83efe04d746a4f1629cb143b366650f0a3ce287430d5f877babb9eb4b68a"
+    },
+    {
+      "month": "2022-07",
+      "rows": 744,
+      "content_sha256": "47f74c644163dd27fa5ce101e86d6c0543212ac0203c565c52a3cb66b7154703"
+    },
+    {
+      "month": "2022-08",
+      "rows": 744,
+      "content_sha256": "de8bde469fe0e2b07d8e9df1b30a9f241bb7cc4b52bbad58c9e33c284cf99c00"
+    },
+    {
+      "month": "2022-09",
+      "rows": 720,
+      "content_sha256": "d72d97bb2d3034b9d7ba046c8a9fdaa3ffdadc2bd4f4df63a1c82ca68d3e6da4"
+    },
+    {
+      "month": "2022-10",
+      "rows": 744,
+      "content_sha256": "d3d35fd19ca23d93cf12e898fd3910eaa4bebd04b2d8e61f2a3a80db73db217d"
+    },
+    {
+      "month": "2022-11",
+      "rows": 720,
+      "content_sha256": "7a4cba5bb9f280fd7a7ee47e10ec857649dcb18aed391655a97148c45a34c85c"
+    },
+    {
+      "month": "2022-12",
+      "rows": 744,
+      "content_sha256": "4c6bd48a03f00da1310614619ec8af14a8699e38357f75316de8f59cbae05ffe"
+    },
+    {
+      "month": "2023-01",
+      "rows": 744,
+      "content_sha256": "e0a3e51ad3b0807627575e79fd69449a7b3296702bd5ae19354f7f1b33e52b8b"
+    },
+    {
+      "month": "2023-02",
+      "rows": 672,
+      "content_sha256": "ac7d8f0464829e2b8616a682afce345938cc3e2913d3fe7880c08c7e729ee4ca"
+    },
+    {
+      "month": "2023-03",
+      "rows": 743,
+      "content_sha256": "52186e2debe534c56be4a9c5ea169b28a31b3f4941a35f72afeaf474589261df"
+    },
+    {
+      "month": "2023-04",
+      "rows": 720,
+      "content_sha256": "209c829ae30a78769becabe1a059c16a76f41a8f64cb68d5bc61eecaa382c542"
+    },
+    {
+      "month": "2023-05",
+      "rows": 744,
+      "content_sha256": "d8d221892a634831c938fb89742e0b6506b6ab3f5e89e51191ae687df68ed7a4"
+    },
+    {
+      "month": "2023-06",
+      "rows": 720,
+      "content_sha256": "27b43eb50aeecf879e6aebb97b82e7b006f47fc18582f1b98d638ed9989e17ba"
+    },
+    {
+      "month": "2023-07",
+      "rows": 744,
+      "content_sha256": "e4cb9e75a65d57fb7973636973f6199b9f9a613e0f965bc3e5d9281cf7bf0eef"
+    },
+    {
+      "month": "2023-08",
+      "rows": 744,
+      "content_sha256": "030a4cc6408786a9d84c3314460b19698f1b543c8e6ba2fa58155a101313d52e"
+    },
+    {
+      "month": "2023-09",
+      "rows": 720,
+      "content_sha256": "b9c8639a3d5e6bfccfa96299c52e3041a538fb4ccb1bf6808a0f29aa9e4d7802"
+    },
+    {
+      "month": "2023-10",
+      "rows": 744,
+      "content_sha256": "c09ec6549f7f83413bf40df963864f9f3358184569ce07aa2cb84c6dd814587c"
+    },
+    {
+      "month": "2023-11",
+      "rows": 720,
+      "content_sha256": "b17d4b253334815f30ffc2b88ad3625c331f8113307c33bf29941ca58ab521d3"
+    },
+    {
+      "month": "2023-12",
+      "rows": 744,
+      "content_sha256": "19d1a19fe989c1e71aeb46c1c1d9b611e7cc6156f62ce20f0f30413dcbea5066"
+    },
+    {
+      "month": "2024-01",
+      "rows": 744,
+      "content_sha256": "5f620aa83b240e350bca12f7e8a50208d5561bdb29fae4f4c1d0fabd38ff2421"
+    },
+    {
+      "month": "2024-02",
+      "rows": 696,
+      "content_sha256": "a760414dea0855b38c35d96d08e6a08965cbf44f5dc191048c3fb660223a21ee"
+    },
+    {
+      "month": "2024-03",
+      "rows": 744,
+      "content_sha256": "10f45e81c36eefdba1af384a0e2b41993dec84bc836bbe2e683706d4f21ab19b"
+    },
+    {
+      "month": "2024-04",
+      "rows": 720,
+      "content_sha256": "6013f5663eab24ab3317a1f6e9febe3b84b7f9e955fd4c5f1614ce6270e67f0c"
+    },
+    {
+      "month": "2024-05",
+      "rows": 744,
+      "content_sha256": "4b77551633ecb53e375d0a23cde849861be71e2f4f647204aa0628bf56a85dcd"
+    },
+    {
+      "month": "2024-06",
+      "rows": 720,
+      "content_sha256": "5ee980b554e2cbbf05d18fadec189f7c1d341239d8b5ec8f95f51fc786a16465"
+    },
+    {
+      "month": "2024-07",
+      "rows": 744,
+      "content_sha256": "68e5b571d5a7411d67cbc004f35206a2408133ed3d2ee11aff197ede4eb47748"
+    },
+    {
+      "month": "2024-08",
+      "rows": 744,
+      "content_sha256": "dad95716551c9578fbc18807d1d4c4299735fa1669115ea249b5a74af7201357"
+    },
+    {
+      "month": "2024-09",
+      "rows": 720,
+      "content_sha256": "832dfa36e818950c2757c6f975586f7b6b59281273712d83cc71c551fadb5c9a"
+    },
+    {
+      "month": "2024-10",
+      "rows": 744,
+      "content_sha256": "756beff84af6f97a93ace4ad742a1cb6d4a65ef150a91123be69a562a3af7b63"
+    },
+    {
+      "month": "2024-11",
+      "rows": 720,
+      "content_sha256": "544010f99eab5c5368f37cbe32b0f985f6c38ed0a097a7aed8a0ab08e1f95f01"
+    },
+    {
+      "month": "2024-12",
+      "rows": 744,
+      "content_sha256": "60334ae849b6f635c774330a86a104ff4da969cde8c1000339d28881b24d9a0a"
+    },
+    {
+      "month": "2025-01",
+      "rows": 744,
+      "content_sha256": "82b2a9abb7acf9779ae15907ed44869d4172c05bc96976c37a4b1262ad3fbe40"
+    },
+    {
+      "month": "2025-02",
+      "rows": 672,
+      "content_sha256": "00bd002c76b5b786cdb032e6fea356e064efdf0a3e908f7c32bb58069a5006ec"
+    },
+    {
+      "month": "2025-03",
+      "rows": 744,
+      "content_sha256": "a436ef1895c029a02c5511666f48df348026f91291ef2474fc5555fad5a2be2e"
+    },
+    {
+      "month": "2025-04",
+      "rows": 720,
+      "content_sha256": "1930f8891d0aa1b33c5a43a5813a8b0961928cdcb8c15057a27e1de351c78c9d"
+    },
+    {
+      "month": "2025-05",
+      "rows": 744,
+      "content_sha256": "b822c16d0efa55e2a0b7e59dc172fa8e5bdcf16ef8e0112a0e0e2449fea1e40b"
+    },
+    {
+      "month": "2025-06",
+      "rows": 720,
+      "content_sha256": "25e16fb403267b950b6e62b336b10caa4802324e8da7e667f8d5a37dc0133b9a"
+    },
+    {
+      "month": "2025-07",
+      "rows": 744,
+      "content_sha256": "119bd636ffcb817c88390d57ebb9ee8027f0072b2776e28c4a8ddffb0f350e73"
+    },
+    {
+      "month": "2025-08",
+      "rows": 744,
+      "content_sha256": "0094ef838a8bbd19152692d22d81aac169dfcc1397ac0634b94fe07ac2b49e5f"
+    },
+    {
+      "month": "2025-09",
+      "rows": 720,
+      "content_sha256": "48835055ac0f32de87ba03740c67f685d02717ef1c97119ff969749ca45decbb"
+    },
+    {
+      "month": "2025-10",
+      "rows": 744,
+      "content_sha256": "7668890a73545a13dbf3c2c8f26d56938fa02774ccec60eaa77c76b33f38f0cb"
+    },
+    {
+      "month": "2025-11",
+      "rows": 720,
+      "content_sha256": "02a967ae34996a179a8f9666df8634ff2b1b2ca762871eb1424cc019598860c5"
+    },
+    {
+      "month": "2025-12",
+      "rows": 744,
+      "content_sha256": "b79f7cc4173176a4af14df4731147e1a2e21773fef612f4600ffc31f37c9014e"
+    },
+    {
+      "month": "2026-01",
+      "rows": 744,
+      "content_sha256": "7d3d474b24060659b3cc10aaa0ec50c84c92f92285979c981798a42f2c4dd918"
+    },
+    {
+      "month": "2026-02",
+      "rows": 672,
+      "content_sha256": "4adce794c91a8dcc9b3d4d065cf4e3485c8a6d5478d08e37741deb6626cb8dc9"
+    },
+    {
+      "month": "2026-03",
+      "rows": 744,
+      "content_sha256": "e86bed6c9e4c9fd6c2e3ab3022d0768366d292e66207e83ce494bedbda92a84f"
+    },
+    {
+      "month": "2026-04",
+      "rows": 720,
+      "content_sha256": "c599ef7b4cf636215f4efe1418b86cde5b3011260a8d2efdb3a8946c07d1cc32"
+    },
+    {
+      "month": "2026-05",
+      "rows": 744,
+      "content_sha256": "9a8da519f8d56cfee851708d5c5a2001cdb35cb8c59c76f91eabd524c45d04ab"
+    },
+    {
+      "month": "2026-06",
+      "rows": 577,
+      "content_sha256": "176239a1ba0ecb4a48058645b50c2d673cccba7482e03499380f5e8868ce7793"
+    }
+  ],
+  "nonnull_per_col": {
+    "klines__ret__1h": 77128,
+    "klines__ret__24h": 77105,
+    "klines__rvol__24h": 77105,
+    "klines__takerbuyfrac__1h": 77125,
+    "klines__range__6h": 77124,
+    "klines__range__24h": 77106,
+    "klines__atr__24h": 77106,
+    "klines__bbw__24h": 77106,
+    "klines__volz__6h": 77124,
+    "klines__volz__24h": 77106,
+    "futures__oi__asof": 9349,
+    "futures__oichg__4h": 9337,
+    "funding__rate__asof": 59478,
+    "nettaker__net__1d": 59510,
+    "futures__stale_h": 16446,
+    "funding__stale_h": 59478,
+    "nettaker__stale_h": 59510
+  }
+}

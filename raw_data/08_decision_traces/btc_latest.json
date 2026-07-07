@@ -1,0 +1,253 @@
+{
+  "coin": "btc",
+  "ts": "2026-07-07 02:08:22",
+  "latest_bar": "2026-07-07 02:00:00+00:00",
+  "mode": "shadow_only",
+  "real_orders_enabled": false,
+  "schema": "v0.2",
+  "final_verdict": "NO_SIGNAL",
+  "direction": null,
+  "confidence": 0,
+  "market_regime": "",
+  "candidate_patterns": [
+    {
+      "id": "btc_volume_capitulation_reversal_ret1lo10__range24hi10_48h_long_v2",
+      "rule": "klines__ret__1h<=-0.00669654 AND klines__range__24h>=0.100544",
+      "family": "range24+ret1",
+      "horizon_h": 48,
+      "test_bps": 373.1,
+      "p_block": 0.0005,
+      "p_episode": 0.00329,
+      "q_fdr": 0.00433,
+      "status": "shadow_eligible",
+      "rank_hint": 0.0,
+      "why": ""
+    },
+    {
+      "id": "btc_volume_capitulation_reversal_ret1lo10__range24hi10_72h_long_v2",
+      "rule": "klines__ret__1h<=-0.00669654 AND klines__range__24h>=0.100544",
+      "family": "range24+ret1",
+      "horizon_h": 72,
+      "test_bps": 367.3,
+      "p_block": 0.0005,
+      "p_episode": 0.00409,
+      "q_fdr": 0.00325,
+      "status": "shadow_eligible",
+      "rank_hint": 0.0,
+      "why": ""
+    },
+    {
+      "id": "btc_volume_capitulation_reversal_ret1lo10__range24hi10_24h_long_v2",
+      "rule": "klines__ret__1h<=-0.00669654 AND klines__range__24h>=0.100544",
+      "family": "range24+ret1",
+      "horizon_h": 24,
+      "test_bps": 245.6,
+      "p_block": 0.0005,
+      "p_episode": 0.00022,
+      "q_fdr": 0.0026,
+      "status": "shadow_eligible",
+      "rank_hint": 0.0,
+      "why": ""
+    }
+  ],
+  "supporting_evidence": [],
+  "opposing_evidence": [],
+  "next_watch_conditions": [],
+  "live_execution_allowed": false,
+  "blocked_reason": "熔断：累计实现 -2485.9bps ≤ -400.0",
+  "gate_path": [
+    {
+      "node": "fresh_data",
+      "q": "数据是否新鲜？",
+      "answer": "YES",
+      "evidence": "特征 age 0.14h（阈 3.0h）",
+      "result": "PASS"
+    },
+    {
+      "node": "pattern_fire",
+      "q": "当前是否有已验证 alpha 触发？",
+      "answer": "NO",
+      "evidence": "未触发",
+      "result": "HOLD"
+    },
+    {
+      "node": "cost_gate",
+      "q": "成本后是否仍有正期望？",
+      "answer": "N/A",
+      "evidence": "无触发 alpha，跳过",
+      "result": "SKIP"
+    },
+    {
+      "node": "risk_gate",
+      "q": "风控/暴露是否允许？",
+      "answer": "YES",
+      "evidence": "暴露 0.08/0.05",
+      "result": "PASS"
+    },
+    {
+      "node": "circuit_breaker",
+      "q": "确定性熔断是否放行？",
+      "answer": "NO",
+      "evidence": "累计实现 -2485.9bps ≤ -400.0",
+      "result": "BLOCK"
+    }
+  ],
+  "circuit_breaker": {
+    "result": "BLOCK",
+    "halts": [
+      "drawdown_halt"
+    ],
+    "evidence": "累计实现 -2485.9bps ≤ -400.0"
+  },
+  "agents": {},
+  "memory": {
+    "used": [
+      "记忆：实盘样本仍太小（n_closed=10），实现 vs 预期未达可判定",
+      "记忆：近窗实现 -248.6bps vs 预期 303.7bps（衰减比 -0.82）",
+      "记忆：本币近 5 次裁决 = NO_SIGNAL、NO_SIGNAL、NO_SIGNAL、NO_SIGNAL、NO_SIGNAL"
+    ],
+    "note": "memory 仅影响分析上下文与候选排序，绝不改变执行权限"
+  },
+  "llm": {
+    "available": false,
+    "market_regime": "",
+    "direction_bias": "neutral",
+    "reasoning_summary": [],
+    "missing_evidence": [],
+    "error": null
+  },
+  "evidence_packet": {
+    "coin": "btc",
+    "ts": "2026-07-07 02:08:22",
+    "latest_bar": "2026-07-07 02:00:00+00:00",
+    "mode": "shadow_only",
+    "real_orders_enabled": false,
+    "freshness": {
+      "age_h": 0.14,
+      "max_feature_age_h": 0.14,
+      "stale": false,
+      "grace_h": 3.0
+    },
+    "feature_snapshot": [
+      {
+        "key": "klines__ret__1h",
+        "label": "1h 收益",
+        "value": -0.0057
+      },
+      {
+        "key": "ret6",
+        "label": "6h 收益",
+        "value": 0.0016
+      },
+      {
+        "key": "klines__ret__24h",
+        "label": "24h 收益",
+        "value": 0.0042
+      },
+      {
+        "key": "klines__rvol__24h",
+        "label": "24h 波动",
+        "value": 0.0066
+      },
+      {
+        "key": "klines__range__24h",
+        "label": "24h 振幅",
+        "value": 0.0532
+      },
+      {
+        "key": "klines__takerbuyfrac__1h",
+        "label": "主动买占比",
+        "value": 0.3662
+      },
+      {
+        "key": "klines__volz__24h",
+        "label": "成交量z",
+        "value": -0.3357
+      },
+      {
+        "key": "trend7d",
+        "label": "7d 趋势",
+        "value": 0.0651
+      },
+      {
+        "key": "trend30d",
+        "label": "30d 趋势",
+        "value": 0.0384
+      }
+    ],
+    "flow": {
+      "price": 63841.98,
+      "net_taker_usd_60s": 329007,
+      "net_taker_usd_300s": 433647,
+      "spread_bps": 0.01,
+      "trades_today": 201049
+    },
+    "shadow": {
+      "signals": [],
+      "blocked": [
+        {
+          "alpha_id": "btc:volume:48h",
+          "family": "volume_capitulation_reversal",
+          "reason": "no_fire",
+          "label": "未触发"
+        }
+      ],
+      "open_positions": [],
+      "utilization": {
+        "current": 0.08,
+        "target": 0.05
+      },
+      "tracking": {
+        "n_closed": 10,
+        "since": "2026-06-17",
+        "decay_status": "sample_too_small",
+        "alpha_decay_warning": false,
+        "mean_realized_bps": -248.6,
+        "mean_predicted_bps": 303.7,
+        "decay_ratio": -0.82,
+        "win_rate": 0.3,
+        "cum_realized_bps": -2485.9
+      }
+    },
+    "patterns": {
+      "mined": true,
+      "n_survivors": 19,
+      "top": [
+        {
+          "id": "btc_volume_capitulation_reversal_ret1lo10__range24hi10_48h_long_v2",
+          "rule": "klines__ret__1h<=-0.00669654 AND klines__range__24h>=0.100544",
+          "family": "range24+ret1",
+          "horizon_h": 48,
+          "test_bps": 373.1,
+          "p_block": 0.0005,
+          "p_episode": 0.00329,
+          "q_fdr": 0.00433,
+          "status": "shadow_eligible"
+        },
+        {
+          "id": "btc_volume_capitulation_reversal_ret1lo10__range24hi10_72h_long_v2",
+          "rule": "klines__ret__1h<=-0.00669654 AND klines__range__24h>=0.100544",
+          "family": "range24+ret1",
+          "horizon_h": 72,
+          "test_bps": 367.3,
+          "p_block": 0.0005,
+          "p_episode": 0.00409,
+          "q_fdr": 0.00325,
+          "status": "shadow_eligible"
+        },
+        {
+          "id": "btc_volume_capitulation_reversal_ret1lo10__range24hi10_24h_long_v2",
+          "rule": "klines__ret__1h<=-0.00669654 AND klines__range__24h>=0.100544",
+          "family": "range24+ret1",
+          "horizon_h": 24,
+          "test_bps": 245.6,
+          "p_block": 0.0005,
+          "p_episode": 0.00022,
+          "q_fdr": 0.0026,
+          "status": "shadow_eligible"
+        }
+      ]
+    }
+  },
+  "next_trigger": "等待已验证 alpha 触发"
+}

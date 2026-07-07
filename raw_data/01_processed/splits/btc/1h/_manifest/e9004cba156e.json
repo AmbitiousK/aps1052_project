@@ -1,0 +1,29 @@
+{
+  "coin": "btc",
+  "interval": "1h",
+  "spec_version": "v1",
+  "spec_sha256": "017ee1b9534f",
+  "built_at": "2026-06-16T19:59:49.090478+00:00",
+  "boundaries": {
+    "train_end": "2024-07-01",
+    "val_end": "2025-07-01"
+  },
+  "embargo_bars": 48,
+  "counts": {
+    "train": 59704,
+    "val": 8712,
+    "test": 8377,
+    "embargo": 96
+  },
+  "rows": 76889,
+  "train_range_ms": [
+    1504227600000,
+    1719615600000
+  ],
+  "test_range_ms": [
+    1751328000000,
+    1781481600000
+  ],
+  "thin_train": false,
+  "content_sha256": "e9004cba156e"
+}
