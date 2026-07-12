@@ -1,59 +1,55 @@
-# Deliverables index
+# Deliverables index (v2 — daily regression)
 
-Everything the APS1052 project produces, mapped to the plan's deliverable list.
+Mapped to the Project-2 requirements.
 
-## Written deliverables
+## Primary deliverables
 
 | item | path |
 |---|---|
+| **Jupyter notebook (the program)** | [../notebooks/APS1052_BTC_regression.ipynb](../notebooks/APS1052_BTC_regression.ipynb) |
+| Slides (32 pages, Marp, with speaker notes) | [SLIDES.md](SLIDES.md) |
 | Final report | [FINAL_REPORT.md](FINAL_REPORT.md) |
-| Slides (30 pages, Marp) | [SLIDES.md](SLIDES.md) |
-| Data dictionary | [../outputs/tables/data_dictionary.csv](../outputs/tables/data_dictionary.csv) |
-| Feature / label definitions | [../docs/feature_selection.md](../docs/feature_selection.md) |
-| Project plan | [../docs/project_plan.md](../docs/project_plan.md) |
+| Data dictionary / feature table | [../outputs/tables/data_dictionary.csv](../outputs/tables/data_dictionary.csv) |
 
-## Per-stage reports (`outputs/`)
+## Data required to run
 
-| stage | report |
+- Fixed data base: `raw_data/` (teammate export, read-only).
+- Assembled modelling dataset: `data/processed/btc_daily_dataset.parquet` (+ .csv)
+  — rebuilt by `aps.datasets.assemble()`.
+
+## Per-stage reports & artifacts
+
+| stage | report | key artifacts |
+|---|---|---|
+| p1 audit + EDA | [P1_DATA.md](../outputs/eda/P1_DATA.md) | data_dictionary.csv, corr, summary_stats |
+| p2 models | [P2_MODELS.md](../outputs/models/P2_MODELS.md) | p2_val_metrics.csv, feature_ranking.csv, val_predictions.parquet, selected_model.json |
+| p3 test + SHAP | [P3_TEST_SHAP.md](../outputs/models/P3_TEST_SHAP.md) | p3_test_metrics.csv, p3_shap_importance.csv, test_predictions.parquet |
+| p4 trading | [P4_TRADING.md](../outputs/backtest/P4_TRADING.md) | p4_test_trade_metrics.csv, p4_test_ledger_base.csv, p4_diagnostics.json |
+
+## Required metrics — where to find them
+
+| requirement | location |
 |---|---|
-| 1 audit | [audit/STAGE1_AUDIT.md](../outputs/audit/STAGE1_AUDIT.md) |
-| 1b EDA | [eda/STAGE1B_EDA.md](../outputs/eda/STAGE1B_EDA.md) |
-| 2 baselines | [models/STAGE2_BASELINES.md](../outputs/models/STAGE2_BASELINES.md) |
-| 3 models | [models/STAGE3_MODELS.md](../outputs/models/STAGE3_MODELS.md) |
-| 4 selection | [models/STAGE4_SELECTION.md](../outputs/models/STAGE4_SELECTION.md) |
-| 5 signals | [backtest/STAGE5_SIGNALS.md](../outputs/backtest/STAGE5_SIGNALS.md) |
-| 6 backtest | [backtest/STAGE6_BACKTEST.md](../outputs/backtest/STAGE6_BACKTEST.md) |
-| 7 statistics | [stats/STAGE7_STATS.md](../outputs/stats/STAGE7_STATS.md) |
-| 7b barrier sensitivity | [backtest/STAGE7B_BARRIER_SENSITIVITY.md](../outputs/backtest/STAGE7B_BARRIER_SENSITIVITY.md) |
-| 8 final test | [backtest/STAGE8_FINAL_TEST.md](../outputs/backtest/STAGE8_FINAL_TEST.md) |
-
-## Data / result files
-
-| item | path |
-|---|---|
-| Model predictions (per barrier) | `outputs/models/predictions_{0.03,0.02,0.01}.parquet` |
-| Classification metrics | `outputs/models/s2_baseline_metrics.csv`, `s3_model_metrics.csv` |
-| Trade ledgers (base cost) | `outputs/backtest/s6_ledger_{train,val}_base.csv` |
-| Backtest metrics | `outputs/backtest/s6_backtest_metrics.csv` |
-| Barrier sensitivity | `outputs/backtest/barrier_sensitivity.csv` |
-| Final test summary | `outputs/backtest/s8_final_test.csv` |
-| Frozen strategy config | `outputs/backtest/selected_config.json` |
-| Statistical-test outputs | `outputs/stats/s7_*.csv` |
-| 1-min path tables | `outputs/backtest/path_table_{...}.parquet` |
-| Figures | `outputs/figures/*.png` |
+| MAE, Spearman RHO, directional accuracy by quantile (val + test) | p2/p3 reports, `p3_test_quantile_diracc.csv` |
+| SHAP feature importance (test) | `outputs/figures/p3_shap_importance.png`, `p3_shap_importance.csv` |
+| Test equity curve vs buy-and-hold | `outputs/figures/p4_test_equity.png` |
+| White Reality Check p-value | `p4_diagnostics.json` (`reality_check`) |
+| Monte-Carlo permutation p-value (Profit Factor) | `p4_diagnostics.json` (`mc_permutation_pf`) |
+| Sharpe / Profit Factor / CAGR | `p4_test_trade_metrics.csv`, P4 report |
 
 ## Environment
 
-| item | path |
-|---|---|
-| Pinned requirements | [../requirements.txt](../requirements.txt) |
-| Package config (editable install) | [../pyproject.toml](../pyproject.toml) |
-| Python | 3.9.10 |
-| Global random seed | 1052 (`aps.config.SEED`) |
+- [../requirements.txt](../requirements.txt): Scikit-Learn 1.6.1, TensorFlow 2.16.2 /
+  Keras 3.10, LightGBM 4.6.0, SHAP 0.49.1 (no PyTorch, no XGBoost).
+- Python 3.9.10, global seed 1052 (`aps.config.SEED`).
 
 ## Code
 
-- Library: `src/aps/` — `config, data, audit, eda, evaluate, models, nn_models,
-  signals, pathdata, backtest, stats_tests, experiment, plotting`.
-- Pipelines: `pipelines/s1_audit … s8_final_test` (one entry point per stage).
-- Frozen data pipeline: `scripts/build_dataset.py`.
+- Library `src/aps/`: `config, datasets, data, scaling, features, models,
+  nn_keras, evaluate, backtest, stats_tests, runner, plotting`.
+- Pipelines `pipelines/p1_data … p4_trading` (one entry point per stage).
+- Run order: `p1_data → p2_models → p3_test_shap → p4_trading`; or run the notebook.
+
+## Archived
+
+- v1 classification framework: git tag `v1-classification-archive`.

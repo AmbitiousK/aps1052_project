@@ -1,4 +1,2 @@
-threshold,n_rows,start,end,is_monotonic_increasing,has_duplicates,n_duplicates,all_on_the_hour,expected_rows_if_no_gaps,n_missing_hours,coverage_pct,n_gaps,max_gap_hours
-0.03,50522,2020-09-01 04:00:00,2026-06-20 02:00:00,True,False,0,True,50831,309,99.392,18,30.0
-0.02,50522,2020-09-01 04:00:00,2026-06-20 02:00:00,True,False,0,True,50831,309,99.392,18,30.0
-0.01,50522,2020-09-01 04:00:00,2026-06-20 02:00:00,True,False,0,True,50831,309,99.392,18,30.0
+n_rows,start,end,calendar_days,coverage_pct,monotonic,duplicates,missing_values,n_features,n_non_ohlcv
+1060,2022-06-11,2025-05-05,1060,100.0,True,0,0,19,12

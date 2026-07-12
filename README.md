@@ -34,32 +34,35 @@ python scripts/build_dataset.py --threshold 0.01   # 对照实验
 
 > 注意：管道需要完整本地数据（1 分钟 K 线不在 GitHub 子集内）。
 
-## 建模与验证工程（Stage 0–9）
+## 建模与验证工程（v2 — 日频回归）
 
-在冻结数据集之上，完成 *数据审计 → EDA → 模型 → 交易信号 → 回测 → 统计检验* 的完整闭环。所有逻辑在 `src/aps/`，每个 Stage 一个可复现入口 `pipelines/sN_*.py`，产物落在 `outputs/`。
+> 按课程作业 `Project-2` 要求重构：**日频 BTC 回归**（预测 T+1 log return）、Scikit-Learn + Keras/TensorFlow + LightGBM（**不用 PyTorch/XGBoost**）、**≥15 特征且过半非 OHLCV**、SHAP、手写 grid-search CV（TimeSeriesSplit）、分位数交易 + White RC + MC permutation(PF)。旧的分类版归档于 git tag `v1-classification-archive`。
+
+数据基座为组员 `raw_data/` 导出（只读、不改）。所有逻辑在 `src/aps/`，每阶段一个入口 `pipelines/pN_*.py`，产物落在 `outputs/`。**主交付是 Notebook。**
 
 ```bash
 pip install -r requirements.txt && pip install -e .   # 环境 + 可导入 aps 包
-python pipelines/s1_audit.py        # 数据审计
-python pipelines/s1b_eda.py         # EDA
-python pipelines/s2_baselines.py    # 基线 + 逻辑回归
-python pipelines/s3_models.py       # RF / XGBoost / LightGBM / MLP / LSTM
-python pipelines/s4_select.py       # 验证集选模型 + 校准
-python pipelines/s5_signals.py      # 交易信号 + τ 标定
-python pipelines/s6_backtest.py     # barrier 对齐回测（三档成本）
-python pipelines/s7_stats.py        # bootstrap CI / permutation / White RC
-python pipelines/s7b_barrier_sensitivity.py   # ±1%/±2% 预注册敏感性
-python pipelines/s8_final_test.py   # 最终样本外测试（test 解封）
+python pipelines/p1_data.py         # 数据装配 + 审计 + EDA
+python pipelines/p2_models.py       # 5 模型 grid-search CV + 验证集选模型
+python pipelines/p3_test_shap.py    # 测试集回归指标 + SHAP
+python pipelines/p4_trading.py      # 分位数交易 + 权益曲线 + 统计诊断
+# 或直接跑主交付 Notebook：
+jupyter nbconvert --to notebook --execute notebooks/APS1052_BTC_regression.ipynb
 ```
+
+### 数据与特征
+
+- **1060 个交易日**（2022-06 → 2025-05），日频，0 缺失，100% 覆盖。
+- **19 特征，12 个（63%）非 OHLCV**：on-chain（MVRV/NUPL/NVT/Puell/SOPR）、净主动量、资金费率、COT 持仓、DVOL、日历 + 7 个价格/TA 特征。
 
 ### 结果一句话
 
-> 特征存在**弱但真实**的极端行情预测信号（extreme PR-AUC 远超随机、样本外置换检验在 ±1%/±3% 显著），但**不构成经受 data-snooping 校正、可覆盖交易成本的经济价值**（White's Reality Check 不拒绝、净收益 CI 全跨 0）。
+> 简单**线性模型**在样本外有正的排序预测力（Spearman ≈ 0.14、方向准确率 56%），**分位数策略扣费后盈利**（CAGR ≈ 26%、Sharpe ≈ 1.0、Profit Factor 1.30）并在下跌市跑赢 buy&hold；但小样本（~146 天）下 permutation / White RC p ≈ 0.17–0.19 **未达显著**、bootstrap CI 跨 null——**边际有前景但未被统计证实**。SHAP 显示最重要特征是 **on-chain NUPL 与 COT 持仓（非 OHLCV）**。
 
 ### 交付物
 
-- **[reports/FINAL_REPORT.md](reports/FINAL_REPORT.md)** —— 完整报告（问题/数据/标签/特征/模型/分类/交易/统计/局限/结论）
-- **[reports/SLIDES.md](reports/SLIDES.md)** —— 30 页 slides（Marp）
-- **[reports/DELIVERABLES.md](reports/DELIVERABLES.md)** —— 交付清单与文件索引
-- `outputs/{audit,eda,models,backtest,stats,figures,tables}/` —— 每 Stage 的 Markdown 报告 + 表格 + 图 + 预测/成交流水/权益/统计输出
+- **[notebooks/APS1052_BTC_regression.ipynb](notebooks/APS1052_BTC_regression.ipynb)** —— 主交付程序（串联全链路）
+- **[reports/SLIDES.md](reports/SLIDES.md)** —— 32 页 slides（Marp，含讲者备注）
+- **[reports/FINAL_REPORT.md](reports/FINAL_REPORT.md)** / **[reports/DELIVERABLES.md](reports/DELIVERABLES.md)**
+- `outputs/{eda,models,backtest,stats,figures,tables}/` —— 每阶段报告 + 表格 + 图 + 预测/成交流水/权益/统计输出
 - `requirements.txt` + `pyproject.toml` —— 锁定环境（Python 3.9.10，seed 1052）

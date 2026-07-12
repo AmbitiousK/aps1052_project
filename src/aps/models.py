@@ -1,225 +1,125 @@
-"""Model zoo — baselines and the model factory.
+"""Pipeline 1 — tabular ML models with a manual grid-search CV (Project-2).
 
-Every estimator exposes the sklearn-style interface (`fit`, `predict`, and where
-meaningful `predict_proba` over CLASSES order) so the evaluation pipeline treats
-baselines and real models identically. Preprocessing (scaling) is folded into a
-Pipeline where the model needs it, and every scaler is fit on train only.
+Each model is an sklearn Pipeline: StandardScaler -> SelectKBest -> estimator,
+so scaling and feature selection happen INSIDE cross-validation (fit on train
+folds only). Model and hyperparameter selection use a manual grid-search loop
+over TimeSeriesSplit folds, scored by Spearman rank correlation (trading-relevant
+and robust to the trivial near-zero predictor that MAE would reward on noisy
+returns). MAE is still reported.
+
+Feature selection uses SelectKBest with f_regression for the linear model and
+mutual_info_regression for the non-linear models (per the assignment).
 """
 from __future__ import annotations
 
+from functools import partial
+from itertools import product
+
 import numpy as np
 import pandas as pd
-from sklearn.base import BaseEstimator, ClassifierMixin
-from sklearn.linear_model import LogisticRegression
+from scipy import stats
+from sklearn.feature_selection import (SelectKBest, f_regression,
+                                       mutual_info_regression)
+from sklearn.linear_model import LinearRegression
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import TimeSeriesSplit
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import f1_score
+from lightgbm import LGBMRegressor
 
 from . import config as C
 
-
-# ----------------------------------------------------------------------------
-# Baseline 1 — majority class
-# ----------------------------------------------------------------------------
-class MajorityClassifier(BaseEstimator, ClassifierMixin):
-    """Always predict the most frequent training class (usually flat = 0)."""
-
-    def fit(self, X, y):
-        y = np.asarray(y)
-        vals, counts = np.unique(y, return_counts=True)
-        self.majority_ = int(vals[np.argmax(counts)])
-        return self
-
-    def predict(self, X):
-        return np.full(len(X), self.majority_, dtype=int)
-
-    def predict_proba(self, X):
-        proba = np.zeros((len(X), len(C.CLASSES)))
-        proba[:, C.CLASSES.index(self.majority_)] = 1.0
-        return proba
+_mi = partial(mutual_info_regression, random_state=C.SEED)
 
 
-# ----------------------------------------------------------------------------
-# Baseline 2 — random prediction from class priors
-# ----------------------------------------------------------------------------
-class PriorRandomClassifier(BaseEstimator, ClassifierMixin):
-    """Predict by sampling from the training class distribution (seeded).
-
-    predict_proba returns the constant class priors — a proper probabilistic
-    baseline for log loss / PR-AUC.
-    """
-
-    def __init__(self, seed: int = C.SEED):
-        self.seed = seed
-
-    def fit(self, X, y):
-        y = np.asarray(y)
-        self.priors_ = np.array([(y == c).mean() for c in C.CLASSES])
-        return self
-
-    def predict(self, X):
-        rng = np.random.default_rng(self.seed)
-        return rng.choice(C.CLASSES, size=len(X), p=self.priors_)
-
-    def predict_proba(self, X):
-        return np.tile(self.priors_, (len(X), 1))
+def _score_func(name: str):
+    return f_regression if name == "linear" else _mi
 
 
-# ----------------------------------------------------------------------------
-# Baseline 3 — simple momentum rule
-# ----------------------------------------------------------------------------
-class MomentumRule(BaseEstimator, ClassifierMixin):
-    """Threshold the short-term momentum feature: +1 if ret_1h>θ, -1 if <-θ.
-
-    θ is selected on TRAIN by maximizing macro-F1 over a grid of |ret_1h|
-    quantiles — a genuine (train-only) rule, not a peek at validation/test.
-    """
-
-    def __init__(self, feature: str = "ret_1h",
-                 quantile_grid: tuple[float, ...] = (0.80, 0.90, 0.95, 0.975, 0.99)):
-        self.feature = feature
-        self.quantile_grid = quantile_grid
-
-    def fit(self, X, y):
-        x = np.asarray(X[self.feature])
-        y = np.asarray(y)
-        best_theta, best_f1 = None, -1.0
-        for q in self.quantile_grid:
-            theta = np.quantile(np.abs(x), q)
-            pred = np.where(x > theta, 1, np.where(x < -theta, -1, 0))
-            f1 = f1_score(y, pred, labels=C.CLASSES, average="macro",
-                          zero_division=0)
-            if f1 > best_f1:
-                best_f1, best_theta = f1, theta
-        self.theta_ = float(best_theta)
-        self.train_macro_f1_ = float(best_f1)
-        return self
-
-    def predict(self, X):
-        x = np.asarray(X[self.feature])
-        return np.where(x > self.theta_, 1, np.where(x < -self.theta_, -1, 0))
+def _estimator(name: str, **p):
+    if name == "linear":
+        return LinearRegression()
+    if name == "svr":
+        return SVR(kernel="rbf", C=p.get("C", 1.0), gamma=p.get("gamma", "scale"),
+                   epsilon=p.get("epsilon", 0.01))
+    if name == "random_forest":
+        return RandomForestRegressor(
+            n_estimators=p.get("n_estimators", 400),
+            max_depth=p.get("max_depth", None),
+            min_samples_leaf=p.get("min_samples_leaf", 5),
+            max_features=p.get("max_features", "sqrt"),
+            n_jobs=-1, random_state=C.SEED)
+    if name == "lightgbm":
+        return LGBMRegressor(
+            n_estimators=p.get("n_estimators", 400),
+            learning_rate=p.get("learning_rate", 0.03),
+            num_leaves=p.get("num_leaves", 31),
+            subsample=0.8, colsample_bytree=0.8, reg_lambda=1.0,
+            n_jobs=-1, random_state=C.SEED, verbose=-1)
+    raise ValueError(name)
 
 
-# ----------------------------------------------------------------------------
-# Primary model factories
-# ----------------------------------------------------------------------------
-def make_logistic(seed: int = C.SEED) -> Pipeline:
-    """Multinomial logistic regression with standardized inputs, balanced classes.
-
-    Scaling matters for a linear model; class_weight='balanced' counters the
-    99:1 imbalance. The scaler lives inside the Pipeline so it is fit only on the
-    data passed to `.fit` (i.e. train).
-    """
+def build_pipeline(name: str, k: int, **params) -> Pipeline:
+    """StandardScaler -> SelectKBest -> estimator."""
+    k_eff = min(k, len(C.FEATURES))
     return Pipeline([
         ("scaler", StandardScaler()),
-        ("clf", LogisticRegression(
-            class_weight="balanced",
-            max_iter=5000,
-            C=1.0,
-            random_state=seed,
-        )),
+        ("select", SelectKBest(score_func=_score_func(name), k=k_eff)),
+        ("model", _estimator(name, **params)),
     ])
 
 
-def make_random_forest(seed: int = C.SEED) -> "RandomForestClassifier":
-    """Random forest — non-linear, scale-free, class-balanced."""
-    from sklearn.ensemble import RandomForestClassifier
-    return RandomForestClassifier(
-        n_estimators=400,
-        max_depth=None,
-        min_samples_leaf=5,
-        max_features="sqrt",
-        class_weight="balanced_subsample",
-        n_jobs=-1,
-        random_state=seed,
-    )
+# Hyperparameter grids (kept small for a clean manual CV). `k` = SelectKBest.
+MODEL_GRIDS: dict[str, dict] = {
+    "linear": {"k": [5, 10, len(C.FEATURES)]},
+    "svr": {"k": [8, len(C.FEATURES)], "C": [1.0, 10.0], "gamma": ["scale", 0.1],
+            "epsilon": [0.005, 0.01]},
+    "random_forest": {"k": [10, len(C.FEATURES)], "n_estimators": [300, 600],
+                      "max_depth": [4, 8, None], "min_samples_leaf": [5, 20]},
+    "lightgbm": {"k": [10, len(C.FEATURES)], "n_estimators": [300, 600],
+                 "learning_rate": [0.02, 0.05], "num_leaves": [15, 31]},
+}
+
+MODELS = list(MODEL_GRIDS)
 
 
-def make_lightgbm(seed: int = C.SEED):
-    """LightGBM gradient boosting with balanced class weights."""
-    from lightgbm import LGBMClassifier
-    return LGBMClassifier(
-        n_estimators=600,
-        learning_rate=0.03,
-        num_leaves=31,
-        max_depth=-1,
-        subsample=0.8,
-        subsample_freq=1,
-        colsample_bytree=0.8,
-        reg_lambda=1.0,
-        class_weight="balanced",
-        random_state=seed,
-        n_jobs=-1,
-        verbose=-1,
-    )
+def _param_combos(grid: dict):
+    keys = list(grid)
+    for values in product(*[grid[k] for k in keys]):
+        yield dict(zip(keys, values))
 
 
-def class_sample_weights(y) -> np.ndarray:
-    """Balanced per-sample weights w_c = N / (K * N_c) — for models without
-    a native class_weight argument (e.g. XGBoost multiclass)."""
-    y = np.asarray(y)
-    n, k = len(y), len(C.CLASSES)
-    counts = {c: max((y == c).sum(), 1) for c in C.CLASSES}
-    return np.array([n / (k * counts[c]) for c in y], dtype=float)
+def _cv_spearman(X, y, name: str, params: dict, n_splits: int = 5) -> float:
+    """Mean out-of-fold Spearman RHO over TimeSeriesSplit folds."""
+    tscv = TimeSeriesSplit(n_splits=n_splits)
+    scores = []
+    for tr, va in tscv.split(X):
+        pipe = build_pipeline(name, params.get("k", len(C.FEATURES)),
+                              **{k: v for k, v in params.items() if k != "k"})
+        pipe.fit(X.iloc[tr], y.iloc[tr])
+        pred = pipe.predict(X.iloc[va])
+        rho, _ = stats.spearmanr(y.iloc[va], pred)
+        scores.append(0.0 if np.isnan(rho) else rho)
+    return float(np.mean(scores))
 
 
-class XGBMulticlass(BaseEstimator, ClassifierMixin):
-    """XGBoost multiclass wrapper that keeps the native {-1,0,1} label space.
-
-    XGBoost 2.x requires 0-based consecutive targets, so we map {-1,0,1}->{0,1,2}
-    internally and expose `classes_ = [-1,0,1]` plus predict/predict_proba in the
-    original label space. Class balance is applied via balanced sample weights at
-    fit time (XGBoost has no multiclass class_weight).
-    """
-
-    def __init__(self, seed: int = C.SEED, balanced: bool = True):
-        self.seed = seed
-        self.balanced = balanced
-
-    def fit(self, X, y):
-        from xgboost import XGBClassifier
-        self.classes_ = np.array(C.CLASSES)
-        y_idx = remap_labels_to_index(y)
-        sw = class_sample_weights(y) if self.balanced else None
-        self._model = XGBClassifier(
-            n_estimators=600, learning_rate=0.03, max_depth=5,
-            subsample=0.8, colsample_bytree=0.8, reg_lambda=1.0,
-            tree_method="hist", random_state=self.seed, n_jobs=-1,
-            eval_metric="mlogloss",
-        )
-        self._model.fit(X, y_idx, sample_weight=sw)
-        return self
-
-    def predict(self, X):
-        idx = self._model.predict(X)
-        return np.array([C.CLASSES[i] for i in idx])
-
-    def predict_proba(self, X):
-        # xgb columns already in index order 0,1,2 == CLASSES order
-        return self._model.predict_proba(X)
+def manual_grid_search(X, y, name: str, n_splits: int = 5) -> dict:
+    """Manual grid-search CV over a model's grid; returns best params + all rows."""
+    rows = []
+    best = {"cv_spearman": -np.inf, "params": None}
+    for params in _param_combos(MODEL_GRIDS[name]):
+        s = _cv_spearman(X, y, name, params, n_splits)
+        rows.append({**params, "cv_spearman": s})
+        if s > best["cv_spearman"]:
+            best = {"cv_spearman": s, "params": params}
+    return {"model": name, "best_params": best["params"],
+            "best_cv_spearman": best["cv_spearman"],
+            "results": pd.DataFrame(rows)}
 
 
-def make_xgboost(seed: int = C.SEED) -> "XGBMulticlass":
-    """XGBoost multiclass with balanced sample weights, native label space."""
-    return XGBMulticlass(seed=seed, balanced=True)
-
-
-def remap_labels_to_index(y) -> np.ndarray:
-    """Map labels {-1,0,1} -> {0,1,2} (XGBoost needs 0-based). Inverse: CLASSES[i]."""
-    lut = {c: i for i, c in enumerate(C.CLASSES)}
-    return np.array([lut[v] for v in np.asarray(y)], dtype=int)
-
-
-def predict_proba_aligned(model, X) -> np.ndarray:
-    """Return predict_proba re-ordered to CLASSES = [-1, 0, 1].
-
-    sklearn orders columns by `model.classes_`; if a class is absent from the
-    fitted model its column is filled with zeros.
-    """
-    proba = model.predict_proba(X)
-    classes = list(getattr(model, "classes_", C.CLASSES))
-    out = np.zeros((len(X), len(C.CLASSES)))
-    for i, c in enumerate(C.CLASSES):
-        if c in classes:
-            out[:, i] = proba[:, classes.index(c)]
-    return out
+def fit_best(X, y, name: str, best_params: dict) -> Pipeline:
+    k = best_params.get("k", len(C.FEATURES))
+    pipe = build_pipeline(name, k, **{k_: v for k_, v in best_params.items() if k_ != "k"})
+    pipe.fit(X, y)
+    return pipe

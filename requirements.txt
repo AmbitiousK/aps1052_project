@@ -1,12 +1,18 @@
-# APS1052 project — pinned environment (Python 3.9.10)
+# APS1052 project (v2, regression) — pinned environment (Python 3.9.10)
+# Allowed stack per Project-2: Scikit-Learn, Keras/TensorFlow, LightGBM.
+# NOT used: PyTorch (forbidden), XGBoost (not in allowed list).
 # Install:  python -m pip install -r requirements.txt
 pandas==2.2.3
 numpy==1.26.4
 scipy==1.12.0
 scikit-learn==1.6.1
-xgboost==2.1.4
 lightgbm==4.6.0
-torch==2.6.0
+tensorflow==2.16.2
+shap==0.49.1
 matplotlib==3.8.3
 seaborn==0.13.2
 pyarrow==20.0.0
+# notebook tooling (to run the deliverable notebook)
+nbformat
+nbconvert
+ipykernel
