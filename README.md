@@ -19,3 +19,16 @@ BTC 相关数据位于 [`raw_data/`](raw_data/)，来源为本人的 HELM 财富
 | | `10_wrapped_btc_wbtc/` WBTC（171M） |
 
 被排除的部分可从原始来源重新下载（脚本见 `raw_data/06_source_bundles/` 内各 `*.py`），或向作者索取完整本地副本。
+
+## 建模数据管道
+
+- **[`scripts/build_dataset.py`](scripts/build_dataset.py)** —— 端到端管道：清洗 1 分钟 K 线 / 期货 OI / 资金费率 → 10 个基础可解释的小时级特征 → 未来 1 小时三分类标签（阈值可配，默认路径触及 ±3%）→ `data/processed/btc_1h_dataset_*.parquet`。
+- **[`docs/feature_selection.md`](docs/feature_selection.md)** —— 特征选择理由、标签阈值的统计依据、清洗与防泄漏规则、建模指引。
+
+```bash
+pip install pandas pyarrow numpy
+python scripts/build_dataset.py            # 默认 path 标签, ±3%
+python scripts/build_dataset.py --threshold 0.01   # 对照实验
+```
+
+> 注意：管道需要完整本地数据（1 分钟 K 线不在 GitHub 子集内）。

@@ -4,27 +4,13 @@ __pycache__/
 *.pyc
 *.env
 .env
+.idea/
 
-# ============================================================
-# GitHub 版本：只收录精简安全子集
-# 以下大体积 / 冗余 / tick 级数据不入库（含 >100MB 文件）
-# 完整数据在本地 raw_data/，说明见 raw_data/README.md
-# ============================================================
+# ---- 数据 ----
+# raw_data 全部不入库（约 5-6 GB，仅保留本地），只收录说明文档
+# 数据来源与目录说明见 raw_data/README.md
+raw_data/*
+!raw_data/README.md
 
-# 原始 1 分钟 K线（含 662M/374M 超限文件）
-raw_data/02_raw_feeds/klines/
-
-# 解压副本（= 02 的解压版，冗余，含 662M/374M 超限文件）
-raw_data/03_unzipped_feeds/
-
-# K线下载归档（266M，含嵌套 .git 与 90M gz）
-raw_data/04_download_klines/
-
-# 实时 tick 级数据（2.3G：逐笔成交 + 盘口 BBO）
-raw_data/05_realtime/
-
-# WBTC（包装BTC，非原生BTC，171M）
-raw_data/10_wrapped_btc_wbtc/
-
-# 兜底：任何 gz / 巨型 csv 归档
+# 兜底：任何 gz 归档
 *.csv.gz

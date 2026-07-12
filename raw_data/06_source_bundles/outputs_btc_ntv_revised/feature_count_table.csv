@@ -1,5 +1,0 @@
-stage,num_features,added_funding_oi_features,added_cot_liquidity_features
-M1_NTV_only,19,0,0
-M2_NTV_plus_BTC_market,42,0,0
-M3_plus_funding_and_OI,42,0,0
-M4_plus_COT_and_liquidity,42,0,0
