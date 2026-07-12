@@ -1,0 +1,4 @@
+threshold,n,violations_pos_label_no_up_touch,violations_neg_label_no_dn_touch,violations_flat_exactly_one_touch,total_violations,same_minute_double_touch
+0.03,50522,0,0,0,0,0
+0.02,50522,0,0,0,0,2
+0.01,50522,0,0,0,0,3

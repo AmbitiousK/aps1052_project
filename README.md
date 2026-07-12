@@ -33,3 +33,33 @@ python scripts/build_dataset.py --threshold 0.01   # 对照实验
 ```
 
 > 注意：管道需要完整本地数据（1 分钟 K 线不在 GitHub 子集内）。
+
+## 建模与验证工程（Stage 0–9）
+
+在冻结数据集之上，完成 *数据审计 → EDA → 模型 → 交易信号 → 回测 → 统计检验* 的完整闭环。所有逻辑在 `src/aps/`，每个 Stage 一个可复现入口 `pipelines/sN_*.py`，产物落在 `outputs/`。
+
+```bash
+pip install -r requirements.txt && pip install -e .   # 环境 + 可导入 aps 包
+python pipelines/s1_audit.py        # 数据审计
+python pipelines/s1b_eda.py         # EDA
+python pipelines/s2_baselines.py    # 基线 + 逻辑回归
+python pipelines/s3_models.py       # RF / XGBoost / LightGBM / MLP / LSTM
+python pipelines/s4_select.py       # 验证集选模型 + 校准
+python pipelines/s5_signals.py      # 交易信号 + τ 标定
+python pipelines/s6_backtest.py     # barrier 对齐回测（三档成本）
+python pipelines/s7_stats.py        # bootstrap CI / permutation / White RC
+python pipelines/s7b_barrier_sensitivity.py   # ±1%/±2% 预注册敏感性
+python pipelines/s8_final_test.py   # 最终样本外测试（test 解封）
+```
+
+### 结果一句话
+
+> 特征存在**弱但真实**的极端行情预测信号（extreme PR-AUC 远超随机、样本外置换检验在 ±1%/±3% 显著），但**不构成经受 data-snooping 校正、可覆盖交易成本的经济价值**（White's Reality Check 不拒绝、净收益 CI 全跨 0）。
+
+### 交付物
+
+- **[reports/FINAL_REPORT.md](reports/FINAL_REPORT.md)** —— 完整报告（问题/数据/标签/特征/模型/分类/交易/统计/局限/结论）
+- **[reports/SLIDES.md](reports/SLIDES.md)** —— 30 页 slides（Marp）
+- **[reports/DELIVERABLES.md](reports/DELIVERABLES.md)** —— 交付清单与文件索引
+- `outputs/{audit,eda,models,backtest,stats,figures,tables}/` —— 每 Stage 的 Markdown 报告 + 表格 + 图 + 预测/成交流水/权益/统计输出
+- `requirements.txt` + `pyproject.toml` —— 锁定环境（Python 3.9.10，seed 1052）
