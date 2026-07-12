@@ -24,6 +24,7 @@ BTC 相关数据位于 [`raw_data/`](raw_data/)，来源为本人的 HELM 财富
 
 - **[`scripts/build_dataset.py`](scripts/build_dataset.py)** —— 端到端管道：清洗 1 分钟 K 线 / 期货 OI / 资金费率 → 10 个基础可解释的小时级特征 → 未来 1 小时三分类标签（阈值可配，默认路径触及 ±3%）→ `data/processed/btc_1h_dataset_*.parquet`。
 - **[`docs/feature_selection.md`](docs/feature_selection.md)** —— 特征选择理由、标签阈值的统计依据、清洗与防泄漏规则、建模指引。
+- **[`docs/project_plan.md`](docs/project_plan.md)** —— 项目最终方案：冻结的数据结构、监督学习模型、交易信号与回测框架、Monte Carlo / White Reality Check 统计检验、实验顺序与交付物清单。
 
 ```bash
 pip install pandas pyarrow numpy
