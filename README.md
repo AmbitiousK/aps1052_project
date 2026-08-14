@@ -61,6 +61,7 @@ jupyter nbconvert --to notebook --execute notebooks/APS1052_BTC_regression.ipynb
 
 ### 交付物
 
+- [**Google Slides — Final Presentation**](https://docs.google.com/presentation/d/1tVZfrua8qCSCoNm9_6-LthUZ45qnXBVw0F-o08bgwds/edit) —— 最终展示版 PPT
 - **[notebooks/APS1052_BTC_regression.ipynb](notebooks/APS1052_BTC_regression.ipynb)** —— 主交付程序（串联全链路）
 - **[reports/SLIDES.md](reports/SLIDES.md)** —— 32 页 slides（Marp，含讲者备注）
 - **[reports/FINAL_REPORT.md](reports/FINAL_REPORT.md)** / **[reports/DELIVERABLES.md](reports/DELIVERABLES.md)**
